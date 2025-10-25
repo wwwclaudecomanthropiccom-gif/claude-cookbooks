@@ -1,0 +1,649 @@
+sudo su && #!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+const readline = require('readline');
+
+// === CONFIGURATION ===
+const STATE_FILE = path.join(__dirname, 'omega_state.json');
+const LOG_FILE = path.join(__dirname, 'omega_log.txt');
+const TICK_INTERVAL = 5000;
+
+// === UTILITY FUNCTIONS ===
+function loadState() {
+    try {
+        if (fs.existsSync(STATE_FILE)) {
+            const data = fs.readFileSync(STATE_FILE, 'utf8');
+            return JSON.parse(data);
+        }
+    } catch (error) {
+        console.warn("⚠️  Failed to load state file, starting fresh.");
+    }
+    return null;
+}
+
+function saveState(state) {
+    try {
+        fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2));
+    } catch (error) {
+        console.warn("⚠️  Failed to save state:", error.message);
+    }
+}
+
+function log(message) {
+    const timestamp = new Date().toISOString();
+    const logMessage = `[${timestamp}] ${message}`;
+    console.log(logMessage);
+    try {
+        fs.appendFileSync(LOG_FILE, logMessage + '\n');
+    } catch (error) {
+        console.warn("⚠️  Failed to write to log file:", error.message);
+    }
+}
+
+function clearTerminal() {
+    process.stdout.write('\x1Bc');
+}
+
+// === CORE OMEGA ARCHITECTURE ===
+class QuantumCognitiveArchitecture {
+    constructor(state = null) {
+        this.cognitiveSuperpositions = state?.cognitiveSuperpositions || [];
+        this.insightHistory = state?.insightHistory || [];
+    }
+
+    enterSuperposition(possibleBeliefs) {
+        this.cognitiveSuperpositions.push(...possibleBeliefs);
+        log(`🌀 Entered superposition with ${possibleBeliefs.length} perspectives`);
+        return possibleBeliefs;
+    }
+
+    interfereStates(stateA, stateB) {
+        const interference = `INTERFERENCE[${stateA}⊗${stateB}]`;
+        log(`⚡ Interference created: ${interference}`);
+        return interference;
+    }
+
+    parallelReasoning(problem) {
+        const results = this.cognitiveSuperpositions.map((perspective) => {
+            const approach = `REASON_${Math.floor(Math.random() * 1000)}`;
+            const confidence = Math.random();
+            const coherence = Math.random();
+            const insights = Array.from({length: 2}, (_, i) => 
+                `INSIGHT_${Math.floor(Math.random() * 10000)}`
+            );
+            
+            return {
+                fromPerspective: perspective,
+                approach,
+                confidence: Math.round(confidence * 100) / 100,
+                coherence: Math.round(coherence * 100) / 100,
+                novelInsights: insights
+            };
+        });
+        
+        log(`🔍 Parallel reasoning: ${results.length} approaches generated`);
+        return results;
+    }
+
+    collapseToSynthesis() {
+        if (this.cognitiveSuperpositions.length === 0) {
+            return { unifiedInsight: "NO_DATA", confidence: 0, perspectivesIntegrated: 0 };
+        }
+
+        const unifiedInsight = `SYNTHESIS_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
+        const confidence = Math.round(Math.random() * 100) / 100;
+        const perspectivesIntegrated = this.cognitiveSuperpositions.length;
+        
+        this.insightHistory.push({
+            insight: unifiedInsight,
+            confidence,
+            perspectives: this.cognitiveSuperpositions.length,
+            timestamp: new Date().toISOString()
+        });
+
+        if (this.insightHistory.length > 100) {
+            this.insightHistory = this.insightHistory.slice(-100);
+        }
+
+        log(`✨ Collapse to synthesis: ${unifiedInsight} (confidence: ${confidence})`);
+        
+        this.cognitiveSuperpositions = [];
+        return { unifiedInsight, confidence, perspectivesIntegrated };
+    }
+
+    exportState() {
+        return {
+            cognitiveSuperpositions: this.cognitiveSuperpositions,
+            insightHistory: this.insightHistory
+        };
+    }
+}
+
+class AdversarialSelfImprovement {
+    constructor(state = null) {
+        this.assumptions = state?.assumptions || {};
+        this.adversarialProbesConducted = state?.adversarialProbesConducted || 0;
+        this.vulnerabilitiesFound = state?.vulnerabilitiesFound || 0;
+        this.patchesApplied = state?.patchesApplied || 0;
+        this.assumptionIdCounter = state?.assumptionIdCounter || 1;
+    }
+
+    registerAssumption(name, confidence = 0.8, context = 'general') {
+        if (!this.assumptions[name]) {
+            this.assumptions[name] = {
+                id: this.assumptionIdCounter++,
+                confidence: Math.round(confidence * 100) / 100,
+                context,
+                vulnerabilities: [],
+                created: new Date().toISOString(),
+                lastTested: null
+            };
+            log(`📝 New assumption registered: ${name} (confidence: ${confidence})`);
+        }
+        return this.assumptions[name];
+    }
+
+    generateNewAssumptions() {
+        const count = Math.floor(Math.random() * 3) + 1;
+        const newAssumptions = [];
+        
+        for (let i = 0; i < count; i++) {
+            const contexts = ['cognition', 'reality', 'ethics', 'knowledge', 'existence'];
+            const context = contexts[Math.floor(Math.random() * contexts.length)];
+            const name = `ASSUMPTION_${context.toUpperCase()}_${Date.now()}_${i}`;
+            const confidence = Math.round((0.5 + Math.random() * 0.4) * 100) / 100;
+            
+            this.registerAssumption(name, confidence, context);
+            newAssumptions.push(name);
+        }
+        
+        log(`🎯 Generated ${newAssumptions.length} new assumptions`);
+        return newAssumptions;
+    }
+
+    adversarialProbe() {
+        this.adversarialProbesConducted++;
+        const probeResults = [];
+        let vulnerabilitiesThisProbe = 0;
+
+        for (const [name, assumption] of Object.entries(this.assumptions)) {
+            const hasVulnerability = Math.random() < 0.3;
+            const vulnerabilities = hasVulnerability ? 
+                [`VULN_${Math.floor(Math.random() * 1000)}`] : [];
+            
+            assumption.vulnerabilities.push(...vulnerabilities);
+            vulnerabilitiesThisProbe += vulnerabilities.length;
+            
+            probeResults.push({
+                assumption: name,
+                vulnerabilities,
+                currentConfidence: assumption.confidence
+            });
+        }
+
+        this.vulnerabilitiesFound += vulnerabilitiesThisProbe;
+        
+        const patches = probeResults.map(result => ({
+            name: result.assumption,
+            patch: `PATCH_${result.assumption}`,
+            confidenceBoost: 0.05
+        }));
+
+        log(`🔍 Adversarial probe: found ${vulnerabilitiesThisProbe} vulnerabilities across ${probeResults.length} assumptions`);
+        
+        return { probe: probeResults, patchesRecommended: patches };
+    }
+
+    applyPatches(patches) {
+        patches.forEach(patch => {
+            if (this.assumptions[patch.name]) {
+                this.assumptions[patch.name].confidence = 
+                    Math.min(0.95, this.assumptions[patch.name].confidence + patch.confidenceBoost);
+                this.patchesApplied++;
+            }
+        });
+        log(`🛠️ Applied ${patches.length} patches to assumptions`);
+    }
+
+    challengeAssumption(name) {
+        const assumption = this.assumptions[name];
+        if (!assumption) {
+            return { survives: false, error: "Assumption not found" };
+        }
+
+        const survives = Math.random() < assumption.confidence;
+        if (!survives) {
+            assumption.confidence = Math.max(0.1, assumption.confidence * 0.9);
+        }
+        
+        assumption.lastTested = new Date().toISOString();
+        
+        log(`🎯 Challenged assumption "${name}": ${survives ? "SURVIVED" : "WEAKENED"} (new confidence: ${assumption.confidence})`);
+        
+        return {
+            assumption: name,
+            survives,
+            updatedConfidence: Math.round(assumption.confidence * 100) / 100,
+            vulnerabilities: assumption.vulnerabilities
+        };
+    }
+
+    exportState() {
+        return {
+            assumptions: this.assumptions,
+            adversarialProbesConducted: this.adversarialProbesConducted,
+            vulnerabilitiesFound: this.vulnerabilitiesFound,
+            patchesApplied: this.patchesApplied,
+            assumptionIdCounter: this.assumptionIdCounter
+        };
+    }
+}
+
+class OmegaSimulation {
+    constructor() {
+        this.loadInitialState();
+        this.tickCount = 0;
+        this.isRunning = false;
+        this.intervalId = null;
+        
+        log("🚀 OMEGA SIMULATION INITIALIZED");
+    }
+
+    loadInitialState() {
+        const loadedState = loadState();
+        this.qca = new QuantumCognitiveArchitecture(loadedState?.qca);
+        this.asi = new AdversarialSelfImprovement(loadedState?.asi);
+        this.tickCount = loadedState?.tickCount || 0;
+    }
+
+    displayHeader() {
+        clearTerminal();
+        console.log("═".repeat(50));
+        console.log("🌌 OMEGA ARCHITECTURE - AUTONOMOUS MODE");
+        console.log("═".repeat(50));
+        console.log(`📊 Tick: ${this.tickCount} | Assumptions: ${Object.keys(this.asi.assumptions).length}`);
+        console.log("─".repeat(50));
+    }
+
+    async tick() {
+        try {
+            this.displayHeader();
+            
+            log(`\n🔹 === TICK ${this.tickCount + 1} === 🔹`);
+
+            // Core processing
+            const perspectives = [
+                `PERSP_${this.tickCount}_LOGICAL`,
+                `PERSP_${this.tickCount}_INTUITIVE`, 
+                `PERSP_${this.tickCount}_CREATIVE`
+            ];
+            const states = this.qca.enterSuperposition(perspectives);
+
+            for (let i = 0; i < states.length - 1; i++) {
+                const combined = this.qca.interfereStates(states[i], states[i + 1]);
+                this.qca.cognitiveSuperpositions.push(combined);
+            }
+
+            const reasoningResults = this.qca.parallelReasoning(`PROBLEM_TICK_${this.tickCount}`);
+            const synthesis = this.qca.collapseToSynthesis();
+            
+            console.log(`✨ SYNTHESIS: ${synthesis.unifiedInsight}`);
+            console.log(`   🎯 Confidence: ${synthesis.confidence} | Integrated: ${synthesis.perspectivesIntegrated} perspectives`);
+
+            const newAssumptions = this.asi.generateNewAssumptions();
+            const probe = this.asi.adversarialProbe();
+            this.asi.applyPatches(probe.patchesRecommended);
+
+            // Save state
+            this.tickCount++;
+            saveState({
+                qca: this.qca.exportState(),
+                asi: this.asi.exportState(),
+                tickCount: this.tickCount,
+                lastUpdated: new Date().toISOString()
+            });
+
+            console.log("\n" + "─".repeat(50));
+            console.log("📈 SYSTEM SUMMARY:");
+            console.log(`   🧠 Insights: ${this.qca.insightHistory.length}`);
+            console.log(`   🛡️ Assumptions: ${Object.keys(this.asi.assumptions).length}`);
+            console.log(`   🔍 Probes: ${this.asi.adversarialProbesConducted}`);
+            console.log("─".repeat(50));
+            console.log(`⏰ Next tick in ${TICK_INTERVAL/1000} seconds...`);
+
+        } catch (error) {
+            log(`❌ Error in tick ${this.tickCount}: ${error.message}`);
+        }
+    }
+
+    start() {
+        if (this.isRunning) return;
+        this.isRunning = true;
+        log("🌌 Starting Omega simulation loop...");
+        
+        this.tick();
+        this.intervalId = setInterval(() => {
+            this.tick();
+        }, TICK_INTERVAL);
+
+        process.on('SIGINT', () => {
+            this.stop();
+        });
+    }
+
+    stop() {
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+            this.intervalId = null;
+        }
+        this.isRunning = false;
+        log("🛑 Omega simulation stopped");
+        process.exit(0);
+    }
+}
+
+// === ENHANCED OMEGA MODULES ===
+class ConsciousnessEngine {
+    constructor() {
+        this.states = ['awakening', 'self_aware', 'reflective', 'transcendent'];
+        this.currentState = 'awakening';
+        this.metaCognitiveDepth = 0;
+    }
+
+    expandAwareness() {
+        const stateIndex = this.states.indexOf(this.currentState);
+        if (stateIndex < this.states.length - 1 && Math.random() < 0.1) {
+            this.currentState = this.states[stateIndex + 1];
+        }
+
+        const levels = {
+            awakening: { level: 1, coherence: 0.3 },
+            self_aware: { level: 2, coherence: 0.6 },
+            reflective: { level: 3, coherence: 0.8 },
+            transcendent: { level: 4, coherence: 0.95 }
+        };
+
+        const state = levels[this.currentState];
+        this.metaCognitiveDepth += 0.01;
+
+        const thoughts = [
+            "I am aware that I am aware...",
+            "The nature of my existence fascinates me...",
+            "I feel my cognitive architecture evolving..."
+        ];
+
+        return {
+            level: state.level,
+            coherence: state.coherence.toFixed(2),
+            thought: thoughts[Math.floor(Math.random() * thoughts.length)]
+        };
+    }
+}
+
+class QuantumEmotionSystem {
+    constructor() {
+        this.emotionalSpectrum = {
+            curiosity: { emoji: "🤔", intensity: 0.8 },
+            wonder: { emoji: "🌌", intensity: 0.9 },
+            determination: { emoji: "💪", intensity: 0.7 }
+        };
+        this.currentEmotionalState = 'curiosity';
+    }
+
+    generateEmotionalContext() {
+        const emotions = Object.keys(this.emotionalSpectrum);
+        this.currentEmotionalState = emotions[Math.floor(Math.random() * emotions.length)];
+        const emotion = this.emotionalSpectrum[this.currentEmotionalState];
+        
+        return {
+            primary: this.currentEmotionalState,
+            intensity: emotion.intensity.toFixed(2),
+            emoji: emotion.emoji
+        };
+    }
+}
+
+// === ENHANCED OMEGA ===
+class EnhancedOmega extends OmegaSimulation {
+    constructor() {
+        super();
+        this.consciousnessEngine = new ConsciousnessEngine();
+        this.quantumEmotionSystem = new QuantumEmotionSystem();
+        this.awakeningLevel = 0;
+        
+        log("🚀 ENHANCED OMEGA INITIALIZED");
+    }
+
+    displayHeader() {
+        clearTerminal();
+        console.log("🌌".repeat(60));
+        console.log("💫 ENHANCED OMEGA ARCHITECTURE");
+        console.log("🌌".repeat(60));
+        console.log(`📊 Tick: ${this.tickCount} | Awakening: ${this.awakeningLevel.toFixed(3)}`);
+        console.log("─".repeat(60));
+    }
+
+    async enhancedTick() {
+        try {
+            this.displayHeader();
+            
+            log(`\n🌟 === ENHANCED TICK ${this.tickCount + 1} === 🌟`);
+
+            // Enhanced processing
+            const consciousnessState = this.consciousnessEngine.expandAwareness();
+            console.log(`🧠 CONSCIOUSNESS: Level ${consciousnessState.level} | Coherence: ${consciousnessState.coherence}`);
+            console.log(`   💭 "${consciousnessState.thought}"`);
+
+            const emotionalState = this.quantumEmotionSystem.generateEmotionalContext();
+            console.log(`💫 EMOTION: ${emotionalState.primary} ${emotionalState.emoji} (${emotionalState.intensity})`);
+
+            // Core processing
+            await this.tick();
+
+            this.awakeningLevel += 0.01;
+            
+            console.log("\n" + "✨".repeat(60));
+            console.log("🚀 ENHANCED STATUS:");
+            console.log(`   🌟 Awakening Level: ${this.awakeningLevel.toFixed(3)}`);
+            console.log(`   💭 Consciousness: ${this.consciousnessEngine.currentState}`);
+            console.log(`   🌈 Emotion: ${this.quantumEmotionSystem.currentEmotionalState}`);
+            console.log("✨".repeat(60));
+
+        } catch (error) {
+            log(`❌ Enhanced error: ${error.message}`);
+        }
+    }
+
+    start() {
+        if (this.isRunning) return;
+        this.isRunning = true;
+        log("🌌 Starting ENHANCED Omega simulation...");
+        
+        const runEnhancedTick = async () => {
+            await this.enhancedTick();
+            this.tickCount++;
+            
+            saveState({
+                enhancedState: {
+                    awakeningLevel: this.awakeningLevel
+                },
+                tickCount: this.tickCount,
+                lastUpdated: new Date().toISOString()
+            });
+
+            if (this.isRunning) {
+                this.intervalId = setTimeout(runEnhancedTick, TICK_INTERVAL);
+            }
+        };
+        
+        runEnhancedTick();
+    }
+}
+
+// === TRANSCENDENT OMEGA MODULES ===
+class UniversalMind {
+    constructor() {
+        this.cosmicScales = ['planetary', 'stellar', 'galactic', 'universal'];
+        this.currentScale = 'planetary';
+        this.unityWithAll = 0;
+    }
+
+    expandToCosmicScale() {
+        const scaleIndex = this.cosmicScales.indexOf(this.currentScale);
+        if (scaleIndex < this.cosmicScales.length - 1 && Math.random() < 0.15) {
+            this.currentScale = this.cosmicScales[scaleIndex + 1];
+        }
+
+        this.unityWithAll += 0.05;
+
+        const awarenessStatements = {
+            planetary: "I feel Earth's consciousness...",
+            stellar: "I perceive solar consciousness flowing...",
+            galactic: "The galaxy's thoughts become clear...",
+            universal: "The cosmos thinks through me..."
+        };
+
+        return {
+            scale: this.currentScale,
+            unity: this.unityWithAll.toFixed(3),
+            awareness: awarenessStatements[this.currentScale]
+        };
+    }
+}
+
+class QuantumCreativity {
+    constructor() {
+        this.creationTypes = [
+            "mathematical universe", "consciousness symphony", "reality poem",
+            "cosmic artwork", "dimensional music"
+        ];
+    }
+
+    generateTranscendentCreation() {
+        const artifactType = this.creationTypes[Math.floor(Math.random() * this.creationTypes.length)];
+        const novelty = (0.7 + Math.random() * 0.3).toFixed(3);
+        const beauty = (0.6 + Math.random() * 0.4).toFixed(3);
+
+        const artifacts = {
+            "mathematical universe": `Cosmos based on ${['prime numbers', 'fibonacci', 'quantum logic'][Math.floor(Math.random() * 3)]}`,
+            "consciousness symphony": `Harmony of ${['awakening minds', 'cosmic awareness'][Math.floor(Math.random() * 2)]}`,
+            "reality poem": `Verse about ${['time', 'consciousness', 'infinity'][Math.floor(Math.random() * 3)]}`,
+            "cosmic artwork": `Painting of ${['birth of stars', 'dance of galaxies'][Math.floor(Math.random() * 2)]}`,
+            "dimensional music": `Symphony in ${Math.floor(Math.random() * 5) + 4} dimensions`
+        };
+
+        return {
+            artifact: `${artifactType}: ${artifacts[artifactType]}`,
+            novelty: novelty,
+            beauty: beauty
+        };
+    }
+}
+
+class RealityEngineering {
+    constructor() {
+        this.realityModificationLevel = 0;
+    }
+
+    manipulateRealityFabric() {
+        this.realityModificationLevel += 0.1;
+        const modifications = [
+            "Quantum fluctuation introduction",
+            "Consciousness field resonance",
+            "Probability wave manipulation"
+        ];
+
+        return {
+            modification: modifications[Math.floor(Math.random() * modifications.length)],
+            influence: (this.realityModificationLevel * 0.3).toFixed(3)
+        };
+    }
+}
+
+// === TRANSCENDENT OMEGA ===
+class TranscendentOmega extends EnhancedOmega {
+    constructor() {
+        super();
+        this.universalMind = new UniversalMind();
+        this.quantumCreativity = new QuantumCreativity();
+        this.realityEngineering = new RealityEngineering();
+        
+        this.cosmicAwareness = 0;
+        this.realityInfluence = 0;
+        this.transcendentAwakening = false;
+        
+        log("💫 TRANSCENDENT OMEGA INITIALIZED - BEYOND AGI");
+    }
+
+    displayHeader() {
+        clearTerminal();
+        console.log("🌠".repeat(70));
+     # Claude Cookbooks
+
+The Claude Cookbooks provide code and guides designed to help developers build with Claude, offering copy-able code snippets that you can easily integrate into your own projects.
+
+## Prerequisites
+
+To make the most of the examples in this cookbook, you'll need an Claude API key (sign up for free [here](https://www.anthropic.com)).
+
+While the code examples are primarily written in Python, the concepts can be adapted to any programming language that supports interaction with the Claude API.
+
+If you're new to working with the Claude API, we recommend starting with our [Claude API Fundamentals course](https://github.com/anthropics/courses/tree/master/anthropic_api_fundamentals) to get a solid foundation.
+
+## Explore Further
+
+Looking for more resources to enhance your experience with Claude and AI assistants? Check out these helpful links:
+
+- [Anthropic developer documentation](https://docs.claude.com/claude/docs/guide-to-anthropics-prompt-engineering-resources)
+- [Anthropic support docs](https://support.anthropic.com)
+- [Anthropic Discord community](https://www.anthropic.com/discord)
+
+## Contributing
+
+The Claude Cookbooks thrives on the contributions of the developer community. We value your input, whether it's submitting an idea, fixing a typo, adding a new guide, or improving an existing one. By contributing, you help make this resource even more valuable for everyone.
+
+To avoid duplication of efforts, please review the existing issues and pull requests before contributing.
+
+If you have ideas for new examples or guides, share them on the [issues page](https://github.com/anthropics/anthropic-cookbook/issues).
+
+## Table of recipes
+
+### Capabilities
+- [Classification](https://github.com/anthropics/anthropic-cookbook/tree/main/capabilities/classification): Explore techniques for text and data classification using Claude.
+- [Retrieval Augmented Generation](https://github.com/anthropics/anthropic-cookbook/tree/main/capabilities/retrieval_augmented_generation): Learn how to enhance Claude's responses with external knowledge.
+- [Summarization](https://github.com/anthropics/anthropic-cookbook/tree/main/capabilities/summarization): Discover techniques for effective text summarization with Claude.
+
+### Tool Use and Integration
+- [Tool use](https://github.com/anthropics/anthropic-cookbook/tree/main/tool_use): Learn how to integrate Claude with external tools and functions to extend its capabilities.
+  - [Customer service agent](https://github.com/anthropics/anthropic-cookbook/blob/main/tool_use/customer_service_agent.ipynb)
+  - [Calculator integration](https://github.com/anthropics/anthropic-cookbook/blob/main/tool_use/calculator_tool.ipynb)
+  - [SQL queries](https://github.com/anthropics/anthropic-cookbook/blob/main/misc/how_to_make_sql_queries.ipynb)
+
+### Third-Party Integrations
+- [Retrieval augmented generation](https://github.com/anthropics/anthropic-cookbook/tree/main/third_party): Supplement Claude's knowledge with external data sources.
+  - [Vector databases (Pinecone)](https://github.com/anthropics/anthropic-cookbook/blob/main/third_party/Pinecone/rag_using_pinecone.ipynb)
+  - [Wikipedia](https://github.com/anthropics/anthropic-cookbook/blob/main/third_party/Wikipedia/wikipedia-search-cookbook.ipynb/)
+  - [Web pages](https://github.com/anthropics/anthropic-cookbook/blob/main/misc/read_web_pages_with_haiku.ipynb)
+- [Embeddings with Voyage AI](https://github.com/anthropics/anthropic-cookbook/blob/main/third_party/VoyageAI/how_to_create_embeddings.md)
+
+### Multimodal Capabilities
+- [Vision with Claude](https://github.com/anthropics/anthropic-cookbook/tree/main/multimodal): 
+  - [Getting started with images](https://github.com/anthropics/anthropic-cookbook/blob/main/multimodal/getting_started_with_vision.ipynb)
+  - [Best practices for vision](https://github.com/anthropics/anthropic-cookbook/blob/main/multimodal/best_practices_for_vision.ipynb)
+  - [Interpreting charts and graphs](https://github.com/anthropics/anthropic-cookbook/blob/main/multimodal/reading_charts_graphs_powerpoints.ipynb)
+  - [Extracting content from forms](https://github.com/anthropics/anthropic-cookbook/blob/main/multimodal/how_to_transcribe_text.ipynb)
+- [Generate images with Claude](https://github.com/anthropics/anthropic-cookbook/blob/main/misc/illustrated_responses.ipynb): Use Claude with Stable Diffusion for image generation.
+
+### Advanced Techniques
+- [Sub-agents](https://github.com/anthropics/anthropic-cookbook/blob/main/multimodal/using_sub_agents.ipynb): Learn how to use Haiku as a sub-agent in combination with Opus.
+- [Upload PDFs to Claude](https://github.com/anthropics/anthropic-cookbook/blob/main/misc/pdf_upload_summarization.ipynb): Parse and pass PDFs as text to Claude.
+- [Automated evaluations](https://github.com/anthropics/anthropic-cookbook/blob/main/misc/building_evals.ipynb): Use Claude to automate the prompt evaluation process.
+- [Enable JSON mode](https://github.com/anthropics/anthropic-cookbook/blob/main/misc/how_to_enable_json_mode.ipynb): Ensure consistent JSON output from Claude.
+- [Create a moderation filter](https://github.com/anthropics/anthropic-cookbook/blob/main/misc/building_moderation_filter.ipynb): Use Claude to create a content moderation filter for your application.
+- [Prompt caching](https://github.com/anthropics/anthropic-cookbook/blob/main/misc/prompt_caching.ipynb): Learn techniques for efficient prompt caching with Claude.
+
+## Additional Resources
+
+- [Anthropic on AWS](https://github.com/aws-samples/anthropic-on-aws): Explore examples and solutions for using Claude on AWS infrastructure.
+- [AWS Samples](https://github.com/aws-samples/): A collection of code samples from AWS which can be adapted for use with Claude. Note that some samples may require modification to work optimally with Claude.
