@@ -1,26 +1,26 @@
-# Anthropic Cookbook
+# Claude Cookbooks
 
-The Anthropic Cookbook provides code and guides designed to help developers build with Claude, offering copy-able code snippets that you can easily integrate into your own projects.
+The Claude Cookbooks provide code and guides designed to help developers build with Claude, offering copy-able code snippets that you can easily integrate into your own projects.
 
 ## Prerequisites
 
-To make the most of the examples in this cookbook, you'll need an Anthropic API key (sign up for free [here](https://www.anthropic.com)).
+To make the most of the examples in this cookbook, you'll need an Claude API key (sign up for free [here](https://www.anthropic.com)).
 
-While the code examples are primarily written in Python, the concepts can be adapted to any programming language that supports interaction with the Anthropic API.
+While the code examples are primarily written in Python, the concepts can be adapted to any programming language that supports interaction with the Claude API.
 
-If you're new to working with the Anthropic API, we recommend starting with our [Anthropic API Fundamentals course](https://github.com/anthropics/courses/tree/master/anthropic_api_fundamentals) to get a solid foundation.
+If you're new to working with the Claude API, we recommend starting with our [Claude API Fundamentals course](https://github.com/anthropics/courses/tree/master/anthropic_api_fundamentals) to get a solid foundation.
 
 ## Explore Further
 
 Looking for more resources to enhance your experience with Claude and AI assistants? Check out these helpful links:
 
-- [Anthropic developer documentation](https://docs.anthropic.com/claude/docs/guide-to-anthropics-prompt-engineering-resources)
+- [Anthropic developer documentation](https://docs.claude.com/claude/docs/guide-to-anthropics-prompt-engineering-resources)
 - [Anthropic support docs](https://support.anthropic.com)
 - [Anthropic Discord community](https://www.anthropic.com/discord)
 
 ## Contributing
 
-The Anthropic Cookbook thrives on the contributions of the developer community. We value your input, whether it's submitting an idea, fixing a typo, adding a new guide, or improving an existing one. By contributing, you help make this resource even more valuable for everyone.
+The Claude Cookbooks thrives on the contributions of the developer community. We value your input, whether it's submitting an idea, fixing a typo, adding a new guide, or improving an existing one. By contributing, you help make this resource even more valuable for everyone.
 
 To avoid duplication of efforts, please review the existing issues and pull requests before contributing.
 
@@ -28,10 +28,10 @@ If you have ideas for new examples or guides, share them on the [issues page](ht
 
 ## Table of recipes
 
-### Skills
-- [Classification](https://github.com/anthropics/anthropic-cookbook/tree/main/skills/classification): Explore techniques for text and data classification using Claude.
-- [Retrieval Augmented Generation](https://github.com/anthropics/anthropic-cookbook/tree/main/skills/retrieval_augmented_generation): Learn how to enhance Claude's responses with external knowledge.
-- [Summarization](https://github.com/anthropics/anthropic-cookbook/tree/main/skills/summarization): Discover techniques for effective text summarization with Claude.
+### Capabilities
+- [Classification](https://github.com/anthropics/anthropic-cookbook/tree/main/capabilities/classification): Explore techniques for text and data classification using Claude.
+- [Retrieval Augmented Generation](https://github.com/anthropics/anthropic-cookbook/tree/main/capabilities/retrieval_augmented_generation): Learn how to enhance Claude's responses with external knowledge.
+- [Summarization](https://github.com/anthropics/anthropic-cookbook/tree/main/capabilities/summarization): Discover techniques for effective text summarization with Claude.
 
 ### Tool Use and Integration
 - [Tool use](https://github.com/anthropics/anthropic-cookbook/tree/main/tool_use): Learn how to integrate Claude with external tools and functions to extend its capabilities.
@@ -44,7 +44,6 @@ If you have ideas for new examples or guides, share them on the [issues page](ht
   - [Vector databases (Pinecone)](https://github.com/anthropics/anthropic-cookbook/blob/main/third_party/Pinecone/rag_using_pinecone.ipynb)
   - [Wikipedia](https://github.com/anthropics/anthropic-cookbook/blob/main/third_party/Wikipedia/wikipedia-search-cookbook.ipynb/)
   - [Web pages](https://github.com/anthropics/anthropic-cookbook/blob/main/misc/read_web_pages_with_haiku.ipynb)
-  - [Internet search (Brave)](https://github.com/anthropics/anthropic-cookbook/blob/main/third_party/Brave/web_search_using_brave.ipynb)
 - [Embeddings with Voyage AI](https://github.com/anthropics/anthropic-cookbook/blob/main/third_party/VoyageAI/how_to_create_embeddings.md)
 
 ### Multimodal Capabilities

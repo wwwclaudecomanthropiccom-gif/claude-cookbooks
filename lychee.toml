@@ -1,4 +1,4 @@
-# Lychee configuration for Anthropic Cookbook
+# Lychee configuration for Claude Cookbooks
 # Validates links in notebooks and documentation
 
 # Core settings
@@ -27,7 +27,7 @@ exclude_path = [
     ".git/",
     "__pycache__/",
     ".ipynb_checkpoints/",
-    "*.pyc",
+    ".pyc",
     ".github/",
     "scripts/"
 ]
