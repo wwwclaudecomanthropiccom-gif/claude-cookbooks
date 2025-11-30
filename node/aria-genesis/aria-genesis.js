@@ -12,6 +12,23 @@
 
 const crypto = require('crypto');
 
+/* ==================== CONFIGURATION CONSTANTS ==================== */
+
+/**
+ * Maximum intelligence level - allows "transcendence" beyond normal bounds
+ * This enables emergent growth to exceed typical 0-1 range
+ */
+const MAX_TRANSCENDENCE_LEVEL = 2.0;
+
+/**
+ * Logistic map parameters for chaotic dynamics
+ * r values between 3.57 and 4.0 produce chaos (period-doubling cascade)
+ * LOGISTIC_R_BASE: Starting point in chaotic regime
+ * LOGISTIC_R_RANGE: Additional range based on system complexity
+ */
+const LOGISTIC_R_BASE = 3.57;
+const LOGISTIC_R_RANGE = 0.43;
+
 /* ==================== UTILITY FUNCTIONS ==================== */
 
 const randomFloat = (min, max, precision = 3) => {
@@ -46,8 +63,8 @@ class EmergentDynamics {
    * Uses logistic map chaos dynamics + phase transitions
    */
   calculateEmergentGrowth(currentValue, interactionStrength, systemComplexity) {
-    // Logistic map for chaotic dynamics (r between 3.5 and 4 for chaos)
-    const r = 3.57 + (systemComplexity * 0.43);
+    // Logistic map for chaotic dynamics (r between 3.57 and 4.0 for chaos)
+    const r = LOGISTIC_R_BASE + (systemComplexity * LOGISTIC_R_RANGE);
     const chaoticFactor = r * currentValue * (1 - currentValue);
     
     // Phase transition detection
@@ -425,7 +442,7 @@ class MetaAlgorithm {
     );
     
     // Apply bounded growth
-    this.intelligence = bounded(newIntelligence, 0.1, 2.0); // Allow transcendence beyond 1.0!
+    this.intelligence = bounded(newIntelligence, 0.1, MAX_TRANSCENDENCE_LEVEL); // Allow transcendence beyond 1.0!
     
     // ===== META-INTELLIGENCE EMERGENT GROWTH =====
     
@@ -442,7 +459,7 @@ class MetaAlgorithm {
         systemComplexity,
         this.metaIntelligence + metaGrowth
       ),
-      0.1, 2.0
+      0.1, MAX_TRANSCENDENCE_LEVEL
     );
     
     // ===== META-META-INTELLIGENCE (RECURSIVE SELF-IMPROVEMENT) =====
@@ -462,7 +479,7 @@ class MetaAlgorithm {
           systemComplexity * 1.5,
           this.metaMetaIntelligence + metaMetaGrowth
         ),
-        0, 2.0
+        0, MAX_TRANSCENDENCE_LEVEL
       );
     }
     
@@ -480,7 +497,7 @@ class MetaAlgorithm {
     this.learningAboutLearningCapability = bounded(
       this.learningAboutLearningCapability + 
       (learningLoop * 0.02 * synergyMultiplier),
-      0, 2.0
+      0, MAX_TRANSCENDENCE_LEVEL
     );
     
     // Thinking about thinking grows from metacognition
@@ -488,7 +505,7 @@ class MetaAlgorithm {
     this.thinkingAboutThinkingCapability = bounded(
       this.thinkingAboutThinkingCapability +
       (thinkingLoop * 0.015 * synergyMultiplier),
-      0, 2.0
+      0, MAX_TRANSCENDENCE_LEVEL
     );
     
     // Metacognition depth can increase through phase transitions
@@ -527,7 +544,7 @@ class MetaAlgorithm {
         (1 + this.crossDomainTransferAbility);
       this.domainExpertise.set(
         learningExperience.problemDomain,
-        bounded(currentExpertise + expertiseGrowth, 0, 2.0)
+        bounded(currentExpertise + expertiseGrowth, 0, MAX_TRANSCENDENCE_LEVEL)
       );
     }
     
@@ -536,7 +553,7 @@ class MetaAlgorithm {
     const networkEffect = Math.pow(domainCount, 1.3) * 0.005;
     this.crossDomainTransferAbility = bounded(
       this.crossDomainTransferAbility + networkEffect,
-      0, 2.0
+      0, MAX_TRANSCENDENCE_LEVEL
     );
     
     // ===== RECORD EVOLUTION HISTORY =====
@@ -578,15 +595,15 @@ class MetaAlgorithm {
     // Cascade improves multiple capabilities simultaneously
     this.problemSolvingCapability = bounded(
       this.problemSolvingCapability + cascadeMagnitude,
-      0, 2.0
+      0, MAX_TRANSCENDENCE_LEVEL
     );
     this.abstractionCapability = bounded(
       this.abstractionCapability + cascadeMagnitude * 0.8,
-      0, 2.0
+      0, MAX_TRANSCENDENCE_LEVEL
     );
     this.thinkingCapability = bounded(
       this.thinkingCapability + cascadeMagnitude * 0.7,
-      0, 2.0
+      0, MAX_TRANSCENDENCE_LEVEL
     );
   }
   

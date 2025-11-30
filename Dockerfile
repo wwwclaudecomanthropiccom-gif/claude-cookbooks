@@ -37,9 +37,9 @@ COPY requirements.txt ./
 COPY requirements-dev.txt ./
 
 # Install Python dependencies
+# Note: In isolated environments, some packages may fail; core functionality still works
 RUN pip install --upgrade pip \
-    && pip install -r requirements.txt \
-    || echo "Some Python packages may not install without network access"
+    && pip install -r requirements.txt
 
 # Copy Node.js ARIA Genesis System
 COPY node/aria-genesis/ ./node/aria-genesis/

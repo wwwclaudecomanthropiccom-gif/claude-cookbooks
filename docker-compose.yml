@@ -10,7 +10,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: aria-genesis
-    command: aria
+    command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
     restart: unless-stopped
     environment:
       - NODE_ENV=production
