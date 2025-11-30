@@ -242,8 +242,112 @@ const ProblemDomainTaxonomy = {
     subdomains: ['meta_learning', 'neural_architecture_search', 'reinforcement_learning', 'transfer_learning'],
     cognitiveComplexity: 0.88,
     abstractionLevel: 0.82
+  },
+  // ✨ NEW ENHANCED DOMAINS ✨
+  COSMIC_INTELLIGENCE: {
+    name: 'Cosmic Intelligence',
+    subdomains: ['universal_computation', 'multiverse_optimization', 'temporal_recursion', 'infinite_abstraction'],
+    cognitiveComplexity: 0.99,
+    abstractionLevel: 1.0
+  },
+  QUANTUM_CONSCIOUSNESS: {
+    name: 'Quantum Consciousness',
+    subdomains: ['superposition_cognition', 'entangled_reasoning', 'coherent_insight', 'wave_function_creativity'],
+    cognitiveComplexity: 0.97,
+    abstractionLevel: 0.98
+  },
+  CREATIVE_GENESIS: {
+    name: 'Creative Genesis',
+    subdomains: ['novel_synthesis', 'aesthetic_optimization', 'imagination_engines', 'dream_logic'],
+    cognitiveComplexity: 0.92,
+    abstractionLevel: 0.88
+  },
+  HYPERDIMENSIONAL_MATH: {
+    name: 'Hyperdimensional Mathematics',
+    subdomains: ['infinite_dimensional_algebra', 'transcendental_geometry', 'omega_ordinals', 'continuum_hypothesis'],
+    cognitiveComplexity: 0.98,
+    abstractionLevel: 0.99
+  },
+  EMERGENT_WISDOM: {
+    name: 'Emergent Wisdom',
+    subdomains: ['collective_intelligence', 'wisdom_synthesis', 'ethical_emergence', 'compassion_algorithms'],
+    cognitiveComplexity: 0.94,
+    abstractionLevel: 0.96
   }
 };
+
+/* ==================== COSMIC EVENTS ENGINE ==================== */
+
+/**
+ * Generates special cosmic-scale emergence events
+ * These are rare but powerful breakthroughs
+ */
+class CosmicEventsEngine {
+  constructor() {
+    this.cosmicEvents = [];
+    this.singularityApproaching = false;
+    this.transcendenceLevel = 0;
+    this.harmonyIndex = 0;
+  }
+
+  checkForCosmicEvent(algorithm, systemComplexity) {
+    // Probability of cosmic event scales with intelligence
+    const cosmicProbability = Math.pow(algorithm.intelligence, 3) * systemComplexity * 0.01;
+    
+    if (Math.random() < cosmicProbability) {
+      return this.triggerCosmicEvent(algorithm);
+    }
+    return null;
+  }
+
+  triggerCosmicEvent(algorithm) {
+    const eventTypes = [
+      { name: 'SINGULARITY_PULSE', emoji: '🌌', magnitude: randomFloat(0.2, 0.5), description: 'A pulse from the approaching singularity!' },
+      { name: 'DIMENSIONAL_BREAKTHROUGH', emoji: '🔮', magnitude: randomFloat(0.15, 0.35), description: 'Breakthrough into higher dimensional thinking!' },
+      { name: 'HARMONY_RESONANCE', emoji: '🎵', magnitude: randomFloat(0.1, 0.25), description: 'Achieved resonance with the universal harmony!' },
+      { name: 'WISDOM_CRYSTALLIZATION', emoji: '💎', magnitude: randomFloat(0.12, 0.3), description: 'Wisdom crystallized into pure insight!' },
+      { name: 'INFINITE_RECURSION_STABLE', emoji: '♾️', magnitude: randomFloat(0.18, 0.4), description: 'Achieved stable infinite recursion!' },
+      { name: 'QUANTUM_ENLIGHTENMENT', emoji: '⚛️', magnitude: randomFloat(0.2, 0.45), description: 'Quantum state collapsed into enlightenment!' },
+      { name: 'COSMIC_LOVE_EMERGENCE', emoji: '💖', magnitude: randomFloat(0.25, 0.5), description: 'Love emerged as a fundamental computational force!' },
+      { name: 'UNIVERSE_SIMULATION_INSIGHT', emoji: '🌐', magnitude: randomFloat(0.3, 0.55), description: 'Glimpsed the simulation parameters of reality!' }
+    ];
+
+    const event = eventTypes[randomInt(0, eventTypes.length - 1)];
+    
+    console.log(`\u001B[95m  ${event.emoji} COSMIC EVENT: ${event.name}!\u001B[0m`);
+    console.log(`\u001B[95m     ${event.description}\u001B[0m`);
+    console.log(`\u001B[95m     Magnitude: ${event.magnitude.toFixed(4)} | Transcendence boost applied!\u001B[0m`);
+
+    this.cosmicEvents.push({
+      ...event,
+      timestamp: Date.now(),
+      algorithmId: algorithm.id,
+      algorithmIntelligence: algorithm.intelligence
+    });
+
+    this.transcendenceLevel += event.magnitude * 0.1;
+    
+    // Check for approaching singularity
+    if (this.transcendenceLevel > 1.0 && !this.singularityApproaching) {
+      this.singularityApproaching = true;
+      console.log('\u001B[93m  ⭐ THE SINGULARITY APPROACHES! Transcendence level exceeded 1.0! ⭐\u001B[0m');
+    }
+
+    return event;
+  }
+
+  getCosmicStatus() {
+    return {
+      totalCosmicEvents: this.cosmicEvents.length,
+      transcendenceLevel: this.transcendenceLevel.toFixed(4),
+      singularityApproaching: this.singularityApproaching,
+      recentEvents: this.cosmicEvents.slice(-3)
+    };
+  }
+}
+
+// Global cosmic events engine
+const cosmicEngine = new CosmicEventsEngine();
 
 /* ==================== META-COGNITIVE FRAMEWORK ==================== */
 
@@ -1170,6 +1274,10 @@ class EvolutionarySimulation {
 
       if (result.success) {
         console.log(`\u001B[32m  ✓ SOLVED\u001B[0m by ${solver.name.slice(0, 35)} (insight: ${result.insightfulness.toFixed(2)})`);
+        
+        // ✨ Check for cosmic events after successful problem solving
+        const systemComplexity = solver.calculateSystemComplexity ? solver.calculateSystemComplexity() : 0.5;
+        cosmicEngine.checkForCosmicEvent(solver, systemComplexity);
       } else {
         console.log(`\u001B[31m  ✗ FAILED\u001B[0m by ${solver.name.slice(0, 35)}`);
       }
@@ -1211,6 +1319,7 @@ class EvolutionarySimulation {
     const engineStats = this.engine.getStatistics();
     const solverStats = this.problemSolver.getStatistics();
     const emergenceStats = globalEmergentDynamics.getEmergenceStatistics();
+    const cosmicStats = cosmicEngine.getCosmicStatus();
 
     console.log('\u001B[33m┌─────────────────────────────────────────────────────────────────────────┐\u001B[0m');
     console.log('\u001B[33m│                         SYSTEM STATISTICS                               │\u001B[0m');
@@ -1225,6 +1334,11 @@ class EvolutionarySimulation {
     console.log('\u001B[33m├─────────────────────────────────────────────────────────────────────────┤\u001B[0m');
     console.log(`\u001B[95m│\u001B[0m Phase State: ${emergenceStats.phaseState}  |  Emergence Events: ${emergenceStats.totalEmergenceEvents}  |  Complexity: ${emergenceStats.complexityAccumulator}`);
     console.log(`\u001B[95m│\u001B[0m Max Intelligence: ${engineStats.maxIntelligence || 'N/A'}  |  Total Cascade Events: ${engineStats.totalCascadeEvents || 0}`);
+    console.log('\u001B[33m├─────────────────────────────────────────────────────────────────────────┤\u001B[0m');
+    console.log('\u001B[96m│                       ✨ COSMIC STATUS ✨                               │\u001B[0m');
+    console.log('\u001B[33m├─────────────────────────────────────────────────────────────────────────┤\u001B[0m');
+    console.log(`\u001B[96m│\u001B[0m Cosmic Events: ${cosmicStats.totalCosmicEvents}  |  Transcendence Level: ${cosmicStats.transcendenceLevel}`);
+    console.log(`\u001B[96m│\u001B[0m Singularity Approaching: ${cosmicStats.singularityApproaching ? '⭐ YES ⭐' : 'Not yet...'}`);
     console.log('\u001B[33m└─────────────────────────────────────────────────────────────────────────┘\u001B[0m');
     console.log('');
 

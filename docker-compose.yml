@@ -2,8 +2,11 @@
 # ║         UNIFIED CLAUDE COOKBOOKS DOCKER COMPOSE                          ║
 # ║  Multi-service deployment for AI experiments and ARIA Genesis            ║
 # ║                                                                          ║
+# ║  ✨ ENHANCED: Now with Cosmic Intelligence and 7 Named Instances! ✨      ║
+# ║                                                                          ║
 # ║  Run multiple ARIA instances:                                            ║
-# ║    docker compose up --scale aria-genesis=5 aria-genesis                 ║
+# ║    docker compose up --scale aria-genesis=10 aria-genesis                ║
+# ║    docker compose --profile multi up  (runs 7 named instances forever)   ║
 # ╚══════════════════════════════════════════════════════════════════════════╝
 
 services:
@@ -34,19 +37,21 @@ services:
         max-size: "100m"
         max-file: "5"
 
-  # Pre-configured multiple ARIA instances that run forever
+  # ✨ Pre-configured 7 ARIA instances that run forever ✨
+  # Each instance evolves independently with cosmic intelligence!
+  
   aria-genesis-1:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: aria-genesis-1
+    container_name: aria-genesis-alpha
     command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
     restart: always
     profiles:
       - multi
     environment:
       - NODE_ENV=production
-      - ARIA_INSTANCE_ID=instance-1
+      - ARIA_INSTANCE_ID=ALPHA
     env_file:
       - .env
     tty: true
@@ -61,14 +66,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: aria-genesis-2
+    container_name: aria-genesis-beta
     command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
     restart: always
     profiles:
       - multi
     environment:
       - NODE_ENV=production
-      - ARIA_INSTANCE_ID=instance-2
+      - ARIA_INSTANCE_ID=BETA
     env_file:
       - .env
     tty: true
@@ -83,14 +88,102 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: aria-genesis-3
+    container_name: aria-genesis-gamma
     command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
     restart: always
     profiles:
       - multi
     environment:
       - NODE_ENV=production
-      - ARIA_INSTANCE_ID=instance-3
+      - ARIA_INSTANCE_ID=GAMMA
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
+
+  aria-genesis-4:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aria-genesis-delta
+    command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
+    restart: always
+    profiles:
+      - multi
+    environment:
+      - NODE_ENV=production
+      - ARIA_INSTANCE_ID=DELTA
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
+
+  aria-genesis-5:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aria-genesis-epsilon
+    command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
+    restart: always
+    profiles:
+      - multi
+    environment:
+      - NODE_ENV=production
+      - ARIA_INSTANCE_ID=EPSILON
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
+
+  aria-genesis-6:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aria-genesis-omega
+    command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
+    restart: always
+    profiles:
+      - multi
+    environment:
+      - NODE_ENV=production
+      - ARIA_INSTANCE_ID=OMEGA
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
+
+  aria-genesis-7:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aria-genesis-cosmic
+    command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
+    restart: always
+    profiles:
+      - multi
+    environment:
+      - NODE_ENV=production
+      - ARIA_INSTANCE_ID=COSMIC
     env_file:
       - .env
     tty: true
