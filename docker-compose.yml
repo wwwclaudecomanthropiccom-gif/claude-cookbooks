@@ -1,0 +1,71 @@
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║         UNIFIED CLAUDE COOKBOOKS DOCKER COMPOSE                          ║
+# ║  Multi-service deployment for AI experiments and ARIA Genesis            ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+
+services:
+  # ARIA Meta-Algorithmic Genesis System - Runs in infinite loop
+  aria-genesis:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aria-genesis
+    command: aria
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env
+    volumes:
+      - aria-data:/app/data
+    tty: true
+    stdin_open: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "5"
+
+  # Jupyter Notebook Server for Python notebooks
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: claude-cookbooks-jupyter
+    command: jupyter
+    ports:
+      - "8888:8888"
+    environment:
+      - JUPYTER_TOKEN=${JUPYTER_TOKEN:-claudecookbooks}
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+      - jupyter-data:/root/.jupyter
+    restart: unless-stopped
+
+  # Optional: Full development environment with shell access
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: claude-cookbooks-dev
+    command: shell
+    profiles:
+      - dev
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+    tty: true
+    stdin_open: true
+
+volumes:
+  aria-data:
+    name: aria-genesis-data
+  jupyter-data:
+    name: claude-cookbooks-jupyter
+
+networks:
+  default:
+    name: claude-cookbooks-network

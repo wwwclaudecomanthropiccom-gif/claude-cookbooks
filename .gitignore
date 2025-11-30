@@ -154,3 +154,12 @@ validation_report_*.md
 tool_use/demo_memory/
 tool_use/memory_storage/
 tool_use/.env
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker
+.docker/
