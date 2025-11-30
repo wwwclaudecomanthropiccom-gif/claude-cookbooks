@@ -86,7 +86,16 @@ claude-cookbooks/
    docker compose up aria-genesis
    ```
 
-4. **Or start Jupyter Notebooks:**
+4. **Start Multiple ARIA Instances (all run forever):**
+   ```bash
+   # Option 1: Scale to N instances
+   docker compose up --scale aria-genesis=5 aria-genesis
+   
+   # Option 2: Use pre-configured multi-instance profile (3 instances)
+   docker compose --profile multi up aria-genesis-1 aria-genesis-2 aria-genesis-3
+   ```
+
+5. **Or start Jupyter Notebooks:**
    ```bash
    docker compose up jupyter
    # Access at http://localhost:8888 (token: claudecookbooks)
@@ -107,8 +116,20 @@ docker compose build
 | Service | Command | Description | Port |
 |---------|---------|-------------|------|
 | `aria-genesis` | `docker compose up aria-genesis` | ARIA Meta-Algorithmic Genesis System (runs forever) | - |
+| `aria-genesis` (scaled) | `docker compose up --scale aria-genesis=N aria-genesis` | Run N instances forever | - |
+| `aria-genesis-1,2,3` | `docker compose --profile multi up` | Pre-configured 3 instances | - |
 | `jupyter` | `docker compose up jupyter` | Jupyter Notebook server | 8888 |
 | `dev` | `docker compose --profile dev run dev` | Interactive development shell | - |
+
+### Run Multiple ARIA Instances Forever
+
+```bash
+# Run 5 instances in background (all run forever with restart: always)
+docker compose up -d --scale aria-genesis=5 aria-genesis
+
+# Or run pre-configured 3 named instances
+docker compose --profile multi up -d
+```
 
 ### Run ARIA Genesis in Background
 

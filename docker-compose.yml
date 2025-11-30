@@ -1,19 +1,27 @@
 # ╔══════════════════════════════════════════════════════════════════════════╗
 # ║         UNIFIED CLAUDE COOKBOOKS DOCKER COMPOSE                          ║
 # ║  Multi-service deployment for AI experiments and ARIA Genesis            ║
+# ║                                                                          ║
+# ║  Run multiple ARIA instances:                                            ║
+# ║    docker compose up --scale aria-genesis=5 aria-genesis                 ║
 # ╚══════════════════════════════════════════════════════════════════════════╝
 
 services:
   # ARIA Meta-Algorithmic Genesis System - Runs in infinite loop
+  # Scale with: docker compose up --scale aria-genesis=N aria-genesis
   aria-genesis:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: aria-genesis
+    # No container_name to allow multiple instances
     command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
-    restart: unless-stopped
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
     environment:
       - NODE_ENV=production
+      - ARIA_INSTANCE_ID=${ARIA_INSTANCE_ID:-default}
     env_file:
       - .env
     volumes:
@@ -25,6 +33,73 @@ services:
       options:
         max-size: "100m"
         max-file: "5"
+
+  # Pre-configured multiple ARIA instances that run forever
+  aria-genesis-1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aria-genesis-1
+    command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
+    restart: always
+    profiles:
+      - multi
+    environment:
+      - NODE_ENV=production
+      - ARIA_INSTANCE_ID=instance-1
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
+
+  aria-genesis-2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aria-genesis-2
+    command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
+    restart: always
+    profiles:
+      - multi
+    environment:
+      - NODE_ENV=production
+      - ARIA_INSTANCE_ID=instance-2
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
+
+  aria-genesis-3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aria-genesis-3
+    command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
+    restart: always
+    profiles:
+      - multi
+    environment:
+      - NODE_ENV=production
+      - ARIA_INSTANCE_ID=instance-3
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
 
   # Jupyter Notebook Server for Python notebooks
   jupyter:
