@@ -1,0 +1,26 @@
+{
+  "name": "aria-genesis",
+  "version": "1.0.0",
+  "description": "ARIA META-ALGORITHMIC GENESIS SYSTEM - Self-Bootstrapping Intelligence Through Recursive Metacognition with Emergent Non-Linear Growth",
+  "main": "aria-genesis.js",
+  "bin": {
+    "aria-genesis": "./aria-genesis.js"
+  },
+  "scripts": {
+    "start": "node aria-genesis.js",
+    "dev": "node --watch aria-genesis.js"
+  },
+  "keywords": [
+    "artificial-intelligence",
+    "meta-learning",
+    "metacognition",
+    "evolutionary-algorithms",
+    "emergent-systems",
+    "recursive-self-improvement"
+  ],
+  "author": "ARIA Genesis Project",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
