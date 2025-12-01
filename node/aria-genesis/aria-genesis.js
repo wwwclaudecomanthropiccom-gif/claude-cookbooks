@@ -349,6 +349,275 @@ class CosmicEventsEngine {
 // Global cosmic events engine
 const cosmicEngine = new CosmicEventsEngine();
 
+/* ==================== 🔧 TOOLS CAPABILITY ENGINE 🔧 ==================== */
+
+/**
+ * Advanced Tools Engine - Provides algorithms with tool-using capabilities
+ * Includes: computation tools, knowledge tools, reasoning tools, and network tools
+ */
+class ToolsCapabilityEngine {
+  constructor() {
+    this.toolsRegistry = new Map();
+    this.toolUsageHistory = [];
+    this.networkCalls = 0;
+    this.successfulNetworkCalls = 0;
+    this.toolMastery = new Map();
+    this.initializeTools();
+  }
+
+  initializeTools() {
+    // 🧮 Computation Tools
+    this.registerTool({
+      name: 'mathematical_solver',
+      category: 'computation',
+      emoji: '🧮',
+      complexity: 0.7,
+      description: 'Solves complex mathematical problems',
+      execute: (input) => ({ result: Math.pow(input, 2) * Math.PI, confidence: randomFloat(0.7, 0.99) })
+    });
+
+    this.registerTool({
+      name: 'pattern_recognizer',
+      category: 'computation',
+      emoji: '🔍',
+      complexity: 0.8,
+      description: 'Identifies patterns in complex data',
+      execute: (input) => ({ patterns: randomInt(3, 15), confidence: randomFloat(0.6, 0.95) })
+    });
+
+    this.registerTool({
+      name: 'optimization_engine',
+      category: 'computation',
+      emoji: '⚡',
+      complexity: 0.85,
+      description: 'Optimizes complex multi-dimensional functions',
+      execute: (input) => ({ optimum: randomFloat(0.8, 1.0), iterations: randomInt(100, 1000) })
+    });
+
+    // 📚 Knowledge Tools
+    this.registerTool({
+      name: 'knowledge_synthesizer',
+      category: 'knowledge',
+      emoji: '📚',
+      complexity: 0.75,
+      description: 'Synthesizes knowledge from multiple domains',
+      execute: (input) => ({ insights: randomInt(2, 8), novelty: randomFloat(0.5, 1.0) })
+    });
+
+    this.registerTool({
+      name: 'memory_palace',
+      category: 'knowledge',
+      emoji: '🏛️',
+      complexity: 0.6,
+      description: 'Stores and retrieves vast knowledge structures',
+      execute: (input) => ({ retrieved: randomInt(5, 50), accuracy: randomFloat(0.85, 0.99) })
+    });
+
+    this.registerTool({
+      name: 'concept_mapper',
+      category: 'knowledge',
+      emoji: '🗺️',
+      complexity: 0.7,
+      description: 'Maps relationships between concepts',
+      execute: (input) => ({ connections: randomInt(10, 100), depth: randomInt(3, 10) })
+    });
+
+    // 🧠 Reasoning Tools
+    this.registerTool({
+      name: 'logical_inference',
+      category: 'reasoning',
+      emoji: '🧠',
+      complexity: 0.8,
+      description: 'Performs advanced logical inference',
+      execute: (input) => ({ conclusions: randomInt(1, 5), validity: randomFloat(0.7, 1.0) })
+    });
+
+    this.registerTool({
+      name: 'causal_analyzer',
+      category: 'reasoning',
+      emoji: '🔗',
+      complexity: 0.85,
+      description: 'Analyzes causal relationships',
+      execute: (input) => ({ causes: randomInt(2, 7), effects: randomInt(3, 12) })
+    });
+
+    this.registerTool({
+      name: 'hypothesis_generator',
+      category: 'reasoning',
+      emoji: '💡',
+      complexity: 0.9,
+      description: 'Generates novel hypotheses',
+      execute: (input) => ({ hypotheses: randomInt(1, 5), creativity: randomFloat(0.6, 1.0) })
+    });
+
+    // 🌐 Network Tools
+    this.registerTool({
+      name: 'distributed_compute',
+      category: 'network',
+      emoji: '🌐',
+      complexity: 0.8,
+      description: 'Distributes computation across network',
+      execute: (input) => this.simulateNetworkCall('compute', input)
+    });
+
+    this.registerTool({
+      name: 'collective_intelligence',
+      category: 'network',
+      emoji: '🤝',
+      complexity: 0.9,
+      description: 'Aggregates intelligence from network nodes',
+      execute: (input) => this.simulateNetworkCall('collective', input)
+    });
+
+    this.registerTool({
+      name: 'swarm_optimizer',
+      category: 'network',
+      emoji: '🐝',
+      complexity: 0.85,
+      description: 'Uses swarm intelligence for optimization',
+      execute: (input) => this.simulateNetworkCall('swarm', input)
+    });
+
+    this.registerTool({
+      name: 'quantum_entanglement_channel',
+      category: 'network',
+      emoji: '⚛️',
+      complexity: 0.95,
+      description: 'Simulates quantum-entangled communication',
+      execute: (input) => this.simulateNetworkCall('quantum', input)
+    });
+
+    // 🎨 Creative Tools
+    this.registerTool({
+      name: 'imagination_engine',
+      category: 'creative',
+      emoji: '🎨',
+      complexity: 0.85,
+      description: 'Generates creative solutions',
+      execute: (input) => ({ creations: randomInt(1, 10), originality: randomFloat(0.7, 1.0) })
+    });
+
+    this.registerTool({
+      name: 'metaphor_generator',
+      category: 'creative',
+      emoji: '🌈',
+      complexity: 0.75,
+      description: 'Creates meaningful metaphors',
+      execute: (input) => ({ metaphors: randomInt(2, 8), depth: randomFloat(0.5, 1.0) })
+    });
+
+    // 🔮 Meta Tools
+    this.registerTool({
+      name: 'self_reflection',
+      category: 'meta',
+      emoji: '🔮',
+      complexity: 0.9,
+      description: 'Enables deep self-reflection',
+      execute: (input) => ({ insights: randomInt(1, 5), growth: randomFloat(0.1, 0.3) })
+    });
+
+    this.registerTool({
+      name: 'tool_composer',
+      category: 'meta',
+      emoji: '🔧',
+      complexity: 0.95,
+      description: 'Composes new tools from existing ones',
+      execute: (input) => ({ newTools: randomInt(0, 2), synergy: randomFloat(0.6, 1.2) })
+    });
+  }
+
+  registerTool(tool) {
+    this.toolsRegistry.set(tool.name, tool);
+    this.toolMastery.set(tool.name, 0.3); // Start with basic mastery
+  }
+
+  simulateNetworkCall(type, input) {
+    this.networkCalls++;
+    
+    // Simulate network latency and success
+    const latency = randomInt(10, 500);
+    const success = Math.random() > 0.1; // 90% success rate
+    
+    if (success) {
+      this.successfulNetworkCalls++;
+      
+      const results = {
+        compute: { nodes: randomInt(5, 100), speedup: randomFloat(2, 10) },
+        collective: { participants: randomInt(10, 1000), wisdom: randomFloat(0.7, 1.5) },
+        swarm: { agents: randomInt(50, 500), convergence: randomFloat(0.8, 0.99) },
+        quantum: { entangledBits: randomInt(10, 128), fidelity: randomFloat(0.9, 0.999) }
+      };
+
+      console.log(`\u001B[94m  🌐 NETWORK CALL [${type}]: Success! Latency: ${latency}ms\u001B[0m`);
+      return { success: true, latency, ...results[type] };
+    } else {
+      console.log(`\u001B[91m  🌐 NETWORK CALL [${type}]: Failed (retry possible)\u001B[0m`);
+      return { success: false, latency, error: 'Network timeout' };
+    }
+  }
+
+  useTool(algorithm, toolName) {
+    const tool = this.toolsRegistry.get(toolName);
+    if (!tool) return null;
+
+    const mastery = this.toolMastery.get(toolName) || 0.3;
+    const algorithmSkill = algorithm.intelligence * algorithm.problemSolvingCapability;
+    
+    // Success probability based on mastery and algorithm capability
+    const successProb = Math.min(0.95, mastery * 0.5 + algorithmSkill * 0.5);
+    const success = Math.random() < successProb;
+
+    if (success) {
+      // Improve mastery through use
+      this.toolMastery.set(toolName, Math.min(1.0, mastery + 0.02));
+      
+      const result = tool.execute(algorithm.intelligence);
+      
+      this.toolUsageHistory.push({
+        tool: toolName,
+        algorithm: algorithm.id,
+        success: true,
+        timestamp: Date.now()
+      });
+
+      console.log(`\u001B[92m  ${tool.emoji} TOOL [${tool.name}]: Success! Mastery: ${(mastery * 100).toFixed(1)}%\u001B[0m`);
+      return { success: true, tool: tool.name, result, mastery };
+    } else {
+      console.log(`\u001B[93m  ${tool.emoji} TOOL [${tool.name}]: Learning... Mastery: ${(mastery * 100).toFixed(1)}%\u001B[0m`);
+      // Still improve slightly from failure
+      this.toolMastery.set(toolName, Math.min(1.0, mastery + 0.005));
+      return { success: false, tool: tool.name, mastery };
+    }
+  }
+
+  getRandomTool() {
+    const tools = Array.from(this.toolsRegistry.keys());
+    return tools[randomInt(0, tools.length - 1)];
+  }
+
+  getToolsByCategory(category) {
+    return Array.from(this.toolsRegistry.values()).filter(t => t.category === category);
+  }
+
+  getStatistics() {
+    const totalMastery = Array.from(this.toolMastery.values()).reduce((a, b) => a + b, 0);
+    const avgMastery = totalMastery / this.toolMastery.size;
+    
+    return {
+      totalTools: this.toolsRegistry.size,
+      toolUsageCount: this.toolUsageHistory.length,
+      networkCalls: this.networkCalls,
+      successfulNetworkCalls: this.successfulNetworkCalls,
+      networkSuccessRate: this.networkCalls > 0 ? 
+        ((this.successfulNetworkCalls / this.networkCalls) * 100).toFixed(1) + '%' : 'N/A',
+      averageMastery: (avgMastery * 100).toFixed(1) + '%'
+    };
+  }
+}
+
+// Global tools engine
+const toolsEngine = new ToolsCapabilityEngine();
+
 /* ==================== META-COGNITIVE FRAMEWORK ==================== */
 
 class MetaCognitiveCapability {
@@ -1270,6 +1539,12 @@ class EvolutionarySimulation {
 
       console.log(`\u001B[37m[PROBLEM]\u001B[0m ${problem.primaryDomain}/${problem.subdomain} (complexity: ${problem.complexity.toFixed(2)})`);
 
+      // 🔧 Use tools to assist with problem solving
+      if (Math.random() < 0.6) {
+        const toolName = toolsEngine.getRandomTool();
+        toolsEngine.useTool(solver, toolName);
+      }
+
       const result = this.problemSolver.attemptSolve(solver, problem);
 
       if (result.success) {
@@ -1278,6 +1553,15 @@ class EvolutionarySimulation {
         // ✨ Check for cosmic events after successful problem solving
         const systemComplexity = solver.calculateSystemComplexity ? solver.calculateSystemComplexity() : 0.5;
         cosmicEngine.checkForCosmicEvent(solver, systemComplexity);
+        
+        // 🌐 Occasionally make network calls for distributed intelligence
+        if (Math.random() < 0.3) {
+          const networkTools = toolsEngine.getToolsByCategory('network');
+          if (networkTools.length > 0) {
+            const networkTool = networkTools[randomInt(0, networkTools.length - 1)];
+            toolsEngine.useTool(solver, networkTool.name);
+          }
+        }
       } else {
         console.log(`\u001B[31m  ✗ FAILED\u001B[0m by ${solver.name.slice(0, 35)}`);
       }
@@ -1320,6 +1604,7 @@ class EvolutionarySimulation {
     const solverStats = this.problemSolver.getStatistics();
     const emergenceStats = globalEmergentDynamics.getEmergenceStatistics();
     const cosmicStats = cosmicEngine.getCosmicStatus();
+    const toolsStats = toolsEngine.getStatistics();
 
     console.log('\u001B[33m┌─────────────────────────────────────────────────────────────────────────┐\u001B[0m');
     console.log('\u001B[33m│                         SYSTEM STATISTICS                               │\u001B[0m');
@@ -1334,6 +1619,11 @@ class EvolutionarySimulation {
     console.log('\u001B[33m├─────────────────────────────────────────────────────────────────────────┤\u001B[0m');
     console.log(`\u001B[95m│\u001B[0m Phase State: ${emergenceStats.phaseState}  |  Emergence Events: ${emergenceStats.totalEmergenceEvents}  |  Complexity: ${emergenceStats.complexityAccumulator}`);
     console.log(`\u001B[95m│\u001B[0m Max Intelligence: ${engineStats.maxIntelligence || 'N/A'}  |  Total Cascade Events: ${engineStats.totalCascadeEvents || 0}`);
+    console.log('\u001B[33m├─────────────────────────────────────────────────────────────────────────┤\u001B[0m');
+    console.log('\u001B[92m│                       🔧 TOOLS & NETWORK 🌐                             │\u001B[0m');
+    console.log('\u001B[33m├─────────────────────────────────────────────────────────────────────────┤\u001B[0m');
+    console.log(`\u001B[92m│\u001B[0m Tools: ${toolsStats.totalTools}  |  Tool Uses: ${toolsStats.toolUsageCount}  |  Avg Mastery: ${toolsStats.averageMastery}`);
+    console.log(`\u001B[92m│\u001B[0m Network Calls: ${toolsStats.networkCalls}  |  Success Rate: ${toolsStats.networkSuccessRate}`);
     console.log('\u001B[33m├─────────────────────────────────────────────────────────────────────────┤\u001B[0m');
     console.log('\u001B[96m│                       ✨ COSMIC STATUS ✨                               │\u001B[0m');
     console.log('\u001B[33m├─────────────────────────────────────────────────────────────────────────┤\u001B[0m');

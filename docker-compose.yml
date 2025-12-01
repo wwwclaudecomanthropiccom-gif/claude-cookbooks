@@ -2,11 +2,12 @@
 # ║         UNIFIED CLAUDE COOKBOOKS DOCKER COMPOSE                          ║
 # ║  Multi-service deployment for AI experiments and ARIA Genesis            ║
 # ║                                                                          ║
-# ║  ✨ ENHANCED: Now with Cosmic Intelligence and 7 Named Instances! ✨      ║
+# ║  ✨ ENHANCED: Cosmic Intelligence + Tools + Network Capabilities! ✨      ║
+# ║  🔧 16 Tool Types | 🌐 Network Calls | 12 Named Instances!               ║
 # ║                                                                          ║
 # ║  Run multiple ARIA instances:                                            ║
-# ║    docker compose up --scale aria-genesis=10 aria-genesis                ║
-# ║    docker compose --profile multi up  (runs 7 named instances forever)   ║
+# ║    docker compose up --scale aria-genesis=20 aria-genesis                ║
+# ║    docker compose --profile multi up  (runs 12 named instances forever)  ║
 # ╚══════════════════════════════════════════════════════════════════════════╝
 
 services:
@@ -184,6 +185,117 @@ services:
     environment:
       - NODE_ENV=production
       - ARIA_INSTANCE_ID=COSMIC
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
+
+  # ✨ Additional instances for maximum parallel evolution ✨
+  aria-genesis-8:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aria-genesis-zenith
+    command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
+    restart: always
+    profiles:
+      - multi
+    environment:
+      - NODE_ENV=production
+      - ARIA_INSTANCE_ID=ZENITH
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
+
+  aria-genesis-9:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aria-genesis-nova
+    command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
+    restart: always
+    profiles:
+      - multi
+    environment:
+      - NODE_ENV=production
+      - ARIA_INSTANCE_ID=NOVA
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
+
+  aria-genesis-10:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aria-genesis-infinity
+    command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
+    restart: always
+    profiles:
+      - multi
+    environment:
+      - NODE_ENV=production
+      - ARIA_INSTANCE_ID=INFINITY
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
+
+  aria-genesis-11:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aria-genesis-quantum
+    command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
+    restart: always
+    profiles:
+      - multi
+    environment:
+      - NODE_ENV=production
+      - ARIA_INSTANCE_ID=QUANTUM
+    env_file:
+      - .env
+    tty: true
+    stdin_open: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
+
+  aria-genesis-12:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aria-genesis-eternal
+    command: ["node", "/app/node/aria-genesis/aria-genesis.js"]
+    restart: always
+    profiles:
+      - multi
+    environment:
+      - NODE_ENV=production
+      - ARIA_INSTANCE_ID=ETERNAL
     env_file:
       - .env
     tty: true
