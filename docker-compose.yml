@@ -1,0 +1,17 @@
+services:
+  aria-genesis:
+    build: .
+    container_name: aria-genesis-main
+    command: ["node", "node/aria-genesis/aria-genesis.js"]
+    restart: always
+    environment:
+      NODE_ENV: production
+      # Include API keys here securely
+    ports:
+      - "3000:3000"  # if needed for outside access
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
